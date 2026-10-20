@@ -5,10 +5,8 @@ This public repository contains my Full Stack Development Lab (FSDL) assignments
 ## Student Details
 
 - **Name:** Sahil Pawar
-- **Roll Number:** Add your roll number
-- **Class:** Add your class/year
-- **Division:** Add your division
-- **Subject:** Full Stack Development Lab (FSDL)
+- **Roll Number:** 123B1B228
+- **Class:** D-1
 
 ## Repository Link
 
