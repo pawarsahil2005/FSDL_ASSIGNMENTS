@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            background: rgb(240, 228, 228);
+            padding: 20px 40px 20px 40px;
+            border: 1px solid;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input,
+        select,
+        textarea {
+            background-color: rgb(255, 255, 255);
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        .gender {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .gender input {
+            width: auto;
+        }
+
+        button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            background: #000000;
+            color: white;
+            border: none;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <form id="formSubmit">
+            <h1> Student Registration Form</h1>
+            <label>Name : </label>
+            <input type="text" placeholder="Enter the name..." required>
+            <label>Email : </label>
+            <input type="email" placeholder="Enter the Email..." required>
+            <label>Gender:</label>
+            <div class="gender">
+                <label><input type="radio" name="gender"> Male</label>
+                <label><input type="radio" name="gender"> Female</label>
+            </div>
+            <label>Courses:</label>
+            <select>
+                <option>Select Course</option>
+                <option>BCA</option>
+                <option>BBA</option>
+                <option>B.Tech</option>
+                <option>M.Tech</option>
+            </select>
+            
+            <label>Address:</label>
+            <textarea rows="5" placeholder="Enter your Address"></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("formSubmit").addEventListener("submit",submitform);
+
+        function submitform(event){
+            event.preventDefault();
+
+            alert("Form is submitted");
+        }
+    </script>
+</body>
+</html>

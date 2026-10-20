@@ -1,0 +1,78 @@
+<!-- Subscription Pricing Toggle -->
+
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="UTF-8">
+        <title>
+            Pricing Plan
+        </title>
+        <!-- <link rel="stylesheet" href="styles.css"> -->
+         <style>
+            body{
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+    background-color: beige;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.card{
+    width: 16rem;
+    background-color: rgb(236, 167, 167);
+    padding : 20px;
+    margin-top: 20px;
+}
+
+.card:hover{
+    background-color: rgb(238, 242, 242);
+}
+         </style>
+</head>
+<body>
+    <h1>Pricing Plan</h1>
+    <input type="checkbox" id="toggle">Yearly</input>
+
+    <div class="container">
+    <div class="card">
+        <img src="basic.png" alt="Basic Plan" width="80">
+        <h3>Basic</h3>
+        <p class="price" id="basic">$10/mo</p>
+    </div>
+    <div class="card">
+        <img src="basic.png" alt="Pro Plan" width="80">
+        <h3>Pro</h3>
+        <p class="price" id="pro">$15/mo</p>
+    </div>
+    <div class="card">
+        <img src="basic.png" alt="Premium Plan" width="80">
+        <h3>Premium</h3>
+        <p class="price" id="premium">$25/mo</p>
+    </div>
+
+    </div>
+    <script>
+        document.getElementById("toggle").addEventListener("change", UpdatePricing);
+        
+        function UpdatePricing(){
+        let isYearly = document.getElementById("toggle").checked;
+
+        if(isYearly === true)
+        {
+            document.getElementById("basic").innerHTML = "$50/year";
+            document.getElementById("pro").innerHTML = "$60/year";
+            document.getElementById("premium").innerHTML = "$100/year";
+        }else{
+            document.getElementById("basic").innerHTML = "$10/mo";
+            document.getElementById("pro").innerHTML = "$15/mo";
+            document.getElementById("premium").innerHTML = "$25/mo";
+        }
+    }
+    </script>
+</body>
+</html>

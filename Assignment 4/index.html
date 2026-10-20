@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Academic Dashboard</title>
+
+<!-- External CSS -->
+<link rel="stylesheet" href="style.css">
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>🎓 Student Academic Progress Dashboard</header>
+
+<div class="selector">
+Select Student:
+<select id="studentSelect"></select>
+</div>
+
+<div class="dashboard">
+
+<div class="card">
+<h3>Subject Marks</h3>
+<canvas id="marksChart"></canvas>
+</div>
+
+<div class="card">
+<h3>Semester Progress</h3>
+<canvas id="semesterChart"></canvas>
+</div>
+
+<div class="card">
+<h3>Attendance</h3>
+<div class="progress-container">
+<div class="progress-bar" id="attendanceBar"></div>
+</div>
+<div id="attendanceText"></div>
+
+<h3>GPA & Result</h3>
+<div class="stat-box">
+<span>GPA:</span>
+<span id="gpa"></span>
+</div>
+<div class="stat-box">
+<span>Status:</span>
+<span id="result"></span>
+</div>
+</div>
+
+<div class="card">
+<h3>Academic Distribution</h3>
+<canvas id="distributionChart"></canvas>
+</div>
+
+</div>
+
+<!-- External JS -->
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Blog Layout</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #f2f2f2;
+    }
+
+    header {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 15px;
+    }
+
+    .container {
+      display: flex;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .sidebar {
+      width: 25%;
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .sidebar ul li a {
+      text-decoration: none;
+      color: black;
+      display: block;
+    }
+
+    .sidebar ul li a:hover {
+      color: blue;
+    }
+
+    .content {
+      width: 75%;
+    }
+
+    .post {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+    }
+
+    footer {
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 20px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar,
+      .content {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Blog Website</h1>
+  </header>
+
+  <div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <h3>Categories</h3>
+      <ul>
+        <li><a href="#web">Web Development</a></li>
+        <li><a href="#ai">AI & ML</a></li>
+        <li><a href="#design">Design</a></li>
+        <li><a href="#prog">Programming</a></li>
+      </ul>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <div class="post" id="web">
+        <h2>Web Development</h2>
+        <p>Learn HTML, CSS, JavaScript and build modern websites.
+
+        </p>
+      </div>
+
+      <div class="post" id="ai">
+        <h2>AI & Machine Learning</h2>
+        <p>AI is transforming the future with smart systems.</p>
+      </div>
+
+      <div class="post" id="design">
+        <h2>Design</h2>
+        <p>UI/UX design is important for user experience.</p>
+      </div>
+
+      <div class="post" id="prog">
+        <h2>Programming</h2>
+        <p>Learn coding in multiple languages like C, Java, Python.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 My Blog Website</p>
+  </footer>
+
+</body>
+
+</html>

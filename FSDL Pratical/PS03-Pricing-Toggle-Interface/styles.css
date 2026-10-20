@@ -1,0 +1,23 @@
+body{
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+    background-color: beige;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.card{
+    width: 16rem;
+    background-color: rgb(236, 167, 167);
+    padding : 20px;
+    margin-top: 20px;
+}
+
+.card:hover{
+    background-color: rgb(238, 242, 242);
+}

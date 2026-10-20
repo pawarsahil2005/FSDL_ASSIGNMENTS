@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>Quiz Application</h1>
+        <div class="question">
+            <h3>What is full form the HTML?</h3>
+            <input type="radio" name="q1" value="a">
+            HyperText Markup Languag
+            <br>
+            
+            <input type="radio" name="q1" value="b">
+            High Text Machine Language
+            <br>
+
+            <input type="radio" name="q1" value="c">
+            Hyper Tool Multi Language
+        </div>
+                <div class="question">
+
+            <h3>2. Which language is used for styling webpages?</h3>
+
+            <input type="radio" name="q2" value="a">
+            HTML
+            <br>
+
+            <input type="radio" name="q2" value="b">
+            CSS
+            <br>
+
+            <input type="radio" name="q2" value="c">
+            Python
+
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question">
+
+            <h3>3. Which language is used for webpage functionality?</h3>
+
+            <input type="radio" name="q3" value="a" >
+            JavaScript
+            <br>
+
+            <input type="radio" name="q3" value="b" >
+            Java
+            <br>
+
+            <input type="radio" name="q3" value="c" >
+            C++
+        </div>
+  
+
+    <button onclick="submitQuiz()">Submit Quiz</button>
+    <div id="result"></div>
+    </div>
+
+    <script>
+        function submitQuiz()
+        {
+            let score = 0;
+            let answers ={
+                q1 : "a",
+                q2 : "b",
+                q3 : "a"
+            };
+
+            let q1 = document.querySelector('input[name="q1"]:checked');
+            let q2 = document.querySelector('input[name="q2"]:checked');
+            let q3 = document.querySelector('input[name="q3"]:checked');
+
+            if(q1 && q1.value === answers.q1)
+            {
+                score++;
+            }
+            if(q2 && q2.value === answers.q2)
+            {
+                score++;
+            }
+            if(q3 && q3.value === answers.q3)
+            {
+                score++;
+            }
+
+            document.getElementById("result").innerHTML = "Yor score is "+ score +" out of 3";
+        }
+    </script>
+
+</body>
+
+</html>

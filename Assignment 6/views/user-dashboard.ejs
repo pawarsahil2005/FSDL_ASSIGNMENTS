@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard | PrimeHealth</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo"><span>🏥</span> PrimeHealth</div>
+    <div class="nav-links">
+      <div class="nav-user">
+        <div class="avatar"><%= user.name.charAt(0).toUpperCase() %></div>
+        <span><%= user.name %></span>
+      </div>
+      <a href="/logout" class="btn-logout btn btn-sm">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- ALERT MESSAGES -->
+    <% if(msg) { %>
+      <% if(msg.includes('Success') || msg.includes('Freed') || msg.includes('Booked')) { %>
+        <div class="alert alert-success">✅ <%= msg %></div>
+      <% } else { %>
+        <div class="alert alert-danger">⚠️ <%= msg %></div>
+      <% } %>
+    <% } %>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <h1>👤 Patient Dashboard</h1>
+      <p>Browse hospitals, view doctors, and book appointment slots</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon hospitals">🏥</div>
+        <div class="stat-info">
+          <h3><%= hospitals.length %></h3>
+          <p>Hospitals</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon doctors">👨‍⚕️</div>
+        <div class="stat-info">
+          <h3><%= doctors.length %></h3>
+          <p>Doctors</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon slots">⏰</div>
+        <div class="stat-info">
+          <h3><%= availableSlots.length %></h3>
+          <p>Open Slots</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon appointments">📅</div>
+        <div class="stat-info">
+          <h3><%= appointments.length %></h3>
+          <p>My Appointments</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- AVAILABLE SLOTS SECTION -->
+    <!-- ============================== -->
+    <div class="card" style="margin-bottom: 2rem;">
+      <div class="card-header">
+        <h3>⏰ Available Appointment Slots</h3>
+        <span class="badge badge-open"><%= availableSlots.length %> open</span>
+      </div>
+      <div class="card-body">
+        <% if(availableSlots.length === 0) { %>
+          <div class="empty-state">
+            <div class="icon">📭</div>
+            <h4>No Slots Available</h4>
+            <p>Check back later for new appointment slots</p>
+          </div>
+        <% } else { %>
+          <div class="slots-grid">
+            <% availableSlots.forEach(s => { %>
+              <div class="slot-card">
+                <div class="slot-top">
+                  <div class="doctor-name">Dr. <%= s.doctor ? s.doctor.name : 'Unknown' %></div>
+                  <span class="badge badge-open">OPEN</span>
+                </div>
+                <div class="slot-details">
+                  <p>🏥 <%= s.doctor && s.doctor.hospital ? s.doctor.hospital.name : 'N/A' %></p>
+                  <p>🔬 <%= s.doctor ? s.doctor.specialty : '' %></p>
+                  <p>📅 <%= new Date(s.date).toLocaleDateString('en-IN', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) %></p>
+                  <p>🕐 <%= s.time %></p>
+                </div>
+                <form action="/user/appointments" method="POST">
+                  <input type="hidden" name="slotId" value="<%= s._id %>">
+                  <button type="submit" class="btn btn-primary btn-block btn-sm">🔒 Book This Slot</button>
+                </form>
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- MY APPOINTMENTS SECTION -->
+    <!-- ============================== -->
+    <div class="card" style="margin-bottom: 2rem;">
+      <div class="card-header">
+        <h3>📅 My Appointments</h3>
+        <span class="badge badge-scheduled"><%= appointments.length %> booked</span>
+      </div>
+      <div class="card-body">
+        <% if(appointments.length === 0) { %>
+          <div class="empty-state">
+            <div class="icon">📋</div>
+            <h4>No Appointments</h4>
+            <p>Book a slot above to create your first appointment</p>
+          </div>
+        <% } else { %>
+          <% appointments.forEach(appt => { %>
+            <div class="appointment-item">
+              <div class="appt-header">
+                <h4>
+                  <% if(appt.slot && appt.slot.doctor) { %>
+                    Dr. <%= appt.slot.doctor.name %>
+                  <% } else { %>
+                    Doctor Info Unavailable
+                  <% } %>
+                </h4>
+                <span class="badge badge-scheduled"><%= appt.status %></span>
+              </div>
+              <div class="appt-details">
+                <% if(appt.slot && appt.slot.doctor) { %>
+                  <p>🏥 Hospital: <strong><%= appt.slot.doctor.hospital ? appt.slot.doctor.hospital.name : 'N/A' %></strong></p>
+                  <p>🔬 Specialty: <strong><%= appt.slot.doctor.specialty %></strong></p>
+                  <p>📅 Date: <strong><%= new Date(appt.slot.date).toLocaleDateString('en-IN', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) %></strong></p>
+                  <p>🕐 Time: <strong><%= appt.slot.time %></strong></p>
+                <% } %>
+              </div>
+              <div class="appt-actions">
+                <!-- RESCHEDULE - open modal -->
+                <button class="btn btn-warning btn-sm" onclick="openReschedule('<%= appt._id %>')">🔄 Reschedule</button>
+                <!-- CANCEL -->
+                <form action="/user/appointments/cancel/<%= appt._id %>" method="POST" style="display:inline;" onsubmit="return confirm('Cancel this appointment? The slot will be freed.')">
+                  <button type="submit" class="btn btn-danger btn-sm">❌ Cancel</button>
+                </form>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- RESCHEDULE MODAL -->
+  <!-- ============================== -->
+  <div id="rescheduleModal" class="modal-overlay">
+    <div class="modal">
+      <h3>🔄 Reschedule Appointment</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Select a new available slot below. Your current slot will be freed automatically.</p>
+      <form id="rescheduleForm" method="POST">
+        <div class="form-group">
+          <label>Select New Slot</label>
+          <select name="newSlotId" class="form-control" required>
+            <option value="" disabled selected>-- Pick a new slot --</option>
+            <% availableSlots.forEach(s => { %>
+              <option value="<%= s._id %>">
+                Dr. <%= s.doctor ? s.doctor.name : 'Unknown' %> | 
+                <%= new Date(s.date).toLocaleDateString('en-IN') %> at <%= s.time %> | 
+                <%= s.doctor && s.doctor.hospital ? s.doctor.hospital.name : '' %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" onclick="closeModal('rescheduleModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Confirm Reschedule</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    function openReschedule(appointmentId) {
+      document.getElementById('rescheduleForm').action = '/user/appointments/reschedule/' + appointmentId;
+      document.getElementById('rescheduleModal').classList.add('active');
+    }
+
+    document.querySelectorAll('.modal-overlay').forEach(m => {
+      m.addEventListener('click', e => { if(e.target === m) m.classList.remove('active'); });
+    });
+
+    // Auto-dismiss alerts after 3 seconds
+    document.querySelectorAll('.alert').forEach(alert => {
+      setTimeout(() => {
+        alert.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        alert.style.opacity = '0';
+        alert.style.transform = 'translateY(-10px)';
+        setTimeout(() => alert.remove(), 500);
+      }, 3000);
+    });
+  </script>
+</body>
+</html>

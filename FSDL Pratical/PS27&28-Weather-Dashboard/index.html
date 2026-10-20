@@ -1,0 +1,101 @@
+<!-- Similar PS27 -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>
+        Weather Dashboard
+    </title>
+    <script src="./chart.umd.js"></script>
+    <style>
+        body{
+            text-align: center;
+            margin:0px;
+            padding:0px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: larger;
+        }
+        .container{
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .chart-box{
+            width: 600px;
+            height: auto;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius:10px; 
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather Dashboard</h1>
+    <div class="container">
+    <div class="chart-box">
+    <h3>Line Chart of Temepreture of the Week(In degree)</h3>
+    <canvas id="lineChart" width="400" height="400"></canvas>
+    </div>
+    <div class="chart-box">
+    <h3>Bar Chart of Rainfall(in mm) of the Week</h3>
+    <canvas id="barChart" width="400" height="400"></canvas>
+    </div>
+    <div class="chart-box">
+    <h3>Doughnut Chart of number of days having {Sunny,Rainy,Cloudy} the Week</h3>
+    <canvas id="doughnutChart" width="400" height="400"></canvas>
+    </div>
+    </div>
+
+    <script>
+        const days = ["Mon","Tue","Wed","Thur","Fri","Sat","Sun"];
+        
+        const ctx1 = document.getElementById("lineChart").getContext("2d");
+
+        new Chart(ctx1,{
+            type:"line",
+            data:{
+                labels: days,
+                datasets:[
+                {
+                    label: "Tempreture Trend in degree",
+                    data:[23,34,45,32,33,41,30],
+                    backgroundColor: "blue"
+                }]
+            }
+        });
+
+        const ctx2 = document.getElementById("barChart").getContext("2d");
+
+        new Chart(ctx2,{
+            type:"bar",
+            data:{
+                labels:days,
+                datasets:[
+                {
+                    label:"Rainfall (in mm)",
+                    data:[220,180,302,330,310,140,250],
+                    backgroundColor:["red","blue","orange","black","green","skyblue","purple"]
+                }]
+            }
+        });
+
+        const ctx3 = document.getElementById("doughnutChart").getContext("2d");
+
+        new Chart(ctx3,{
+            type:"doughnut",
+            data:{
+                labels:["Sunny","Rainy","Cloudy"],
+                datasets:[{
+                    label:"No.of Days",
+                    data:[3,2,1]
+                }]
+            }
+        });
+
+    </script>
+</body>
+</html>

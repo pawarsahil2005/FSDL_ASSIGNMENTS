@@ -1,0 +1,23 @@
+<section class="section">
+  <h1 class="section__title">Our Insurance Plans</h1>
+  <p class="section__intro">
+    Choose a plan that matches your needs. All our plans are designed to offer
+    reliable protection and peace of mind.
+  </p>
+
+  <div class="cards-grid">
+    <% if (plans && plans.length) { %>
+      <% plans.forEach((plan) => { %>
+        <article class="card">
+          <h2 class="card__title"><%= plan.planName %></h2>
+          <p class="card__price">₹ <%= plan.price %></p>
+          <p class="card__duration"><%= plan.duration %></p>
+          <p class="card__description"><%= plan.description %></p>
+        </article>
+      <% }) %>
+    <% } else { %>
+      <p>No insurance plans available right now. Please check back later.</p>
+    <% } %>
+  </div>
+</section>
+

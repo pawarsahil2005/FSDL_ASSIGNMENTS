@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>
+        Attendance Distribution - Doughnut Chart 
+    </title>
+    <script src="./chart.js"></script>
+
+    <style>
+
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;  
+        align-items: center;      
+        font-family: Arial;
+    }
+
+    div {
+        width: 400px;
+        height: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid black;
+        border-radius: 20px;
+    }
+    </style>
+</head>
+<body>
+    <h1>Attendance Distribution - Doughnut Chart</h1>
+
+    <div>
+    <canvas id="doughnutchart" width="400" height="400"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById("doughnutchart").getContext("2d");
+
+        new Chart(ctx,{
+            type:"doughnut",
+            data:{
+                labels : ["Present" , "Absent","Leave"],
+                datasets:[
+                {
+                    label: "Percentage of Attendence",
+                    data: [75,10,15],
+                    backgroundColor: ["red","blue","green"],
+                    borderWidth: 1
+                }] 
+            }
+        });
+    </script>
+</body>
+</html>

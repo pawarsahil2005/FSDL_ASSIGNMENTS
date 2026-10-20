@@ -1,0 +1,65 @@
+<section class="section section--narrow">
+  <h1 class="section__title">Add New Insurance Plan</h1>
+  <p class="section__intro">
+    Create a new insurance plan that will be visible on the Plans page and in the dashboard.
+  </p>
+
+  <% if (typeof error !== "undefined" && error) { %>
+    <div class="alert alert-error"><%= error %></div>
+  <% } %>
+
+  <form action="/plans/new" method="POST" class="form">
+    <div class="form__group">
+      <label for="planName">Plan Name</label>
+      <input
+        type="text"
+        id="planName"
+        name="planName"
+        placeholder="e.g. Silver Protection Plan"
+        required
+      />
+    </div>
+
+    <div class="form__group">
+      <label for="price">Price (₹)</label>
+      <input
+        type="number"
+        id="price"
+        name="price"
+        placeholder="e.g. 2999"
+        min="1"
+        required
+      />
+    </div>
+
+    <div class="form__group">
+      <label for="duration">Duration</label>
+      <input
+        type="text"
+        id="duration"
+        name="duration"
+        placeholder="e.g. 1 Year, 2 Years"
+        required
+      />
+    </div>
+
+    <div class="form__group">
+      <label for="description">Description</label>
+      <input
+        type="text"
+        id="description"
+        name="description"
+        placeholder="Short description of the coverage"
+        required
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-full">Add Plan</button>
+
+    <p class="form__note">
+      Changed your mind?
+      <a href="/dashboard">Go back to dashboard</a>.
+    </p>
+  </form>
+</section>
+

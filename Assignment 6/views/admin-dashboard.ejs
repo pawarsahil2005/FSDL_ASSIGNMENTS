@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | PrimeHealth</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo"><span>🏥</span> PrimeHealth Admin</div>
+    <div class="nav-links">
+      <div class="nav-user">
+        <div class="avatar"><%= admin.name.charAt(0).toUpperCase() %></div>
+        <span><%= admin.name %></span>
+      </div>
+      <a href="/logout" class="btn-logout btn btn-sm">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- ALERTS -->
+    <% if(error) { %>
+      <div class="alert alert-danger">⚠️ <%= error %></div>
+    <% } %>
+    <% if(success) { %>
+      <div class="alert alert-success">✅ <%= success %></div>
+    <% } %>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <h1>🛠️ Admin Dashboard</h1>
+      <p>Manage hospitals, doctors and appointment slots</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon hospitals">🏥</div>
+        <div class="stat-info">
+          <h3><%= hospitals.length %></h3>
+          <p>Hospitals</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon doctors">👨‍⚕️</div>
+        <div class="stat-info">
+          <h3><%= doctors.length %></h3>
+          <p>Doctors</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon slots">⏰</div>
+        <div class="stat-info">
+          <h3><%= slots.length %></h3>
+          <p>Total Slots</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon appointments">📅</div>
+        <div class="stat-info">
+          <h3><%= slots.filter(s => s.isBooked).length %></h3>
+          <p>Booked Slots</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- HOSPITAL MANAGEMENT -->
+    <!-- ============================== -->
+    <div class="grid-2" style="margin-bottom: 2rem;">
+      <!-- ADD HOSPITAL FORM -->
+      <div class="card">
+        <div class="card-header"><h3>🏥 Add Hospital</h3></div>
+        <div class="card-body">
+          <form action="/admin/hospital" method="POST">
+            <div class="form-group">
+              <label>Hospital Name</label>
+              <input type="text" name="name" class="form-control" placeholder="City Care Hospital" required>
+            </div>
+            <div class="form-group">
+              <label>Address</label>
+              <input type="text" name="address" class="form-control" placeholder="123 Main Street" required>
+            </div>
+            <div class="form-group">
+              <label>Contact (10 digits)</label>
+              <input type="tel" name="contact" class="form-control" placeholder="9876543210" pattern="[0-9]{10}" maxlength="10" title="Phone number must be exactly 10 digits">
+              <small style="color: var(--text-muted); font-size: 0.75rem;">Enter 10-digit mobile number only</small>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">+ Add Hospital</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- HOSPITALS LIST -->
+      <div class="card">
+        <div class="card-header"><h3>📋 All Hospitals (<%= hospitals.length %>)</h3></div>
+        <div class="card-body" style="max-height: 350px; overflow-y: auto;">
+          <% if(hospitals.length === 0) { %>
+            <div class="empty-state">
+              <div class="icon">🏥</div>
+              <h4>No Hospitals Yet</h4>
+              <p>Add your first hospital to get started</p>
+            </div>
+          <% } else { %>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Name</th><th>Address</th><th>Contact</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                  <% hospitals.forEach(h => { %>
+                    <tr>
+                      <td><strong><%= h.name %></strong></td>
+                      <td><%= h.address %></td>
+                      <td><%= h.contact || '—' %></td>
+                      <td>
+                        <div class="actions">
+                          <button class="btn btn-warning btn-sm" onclick="openEditHospital('<%= h._id %>', '<%= h.name %>', '<%= h.address %>', '<%= h.contact || '' %>')">Edit</button>
+                          <form action="/admin/hospital/delete/<%= h._id %>" method="POST" style="display:inline;" onsubmit="return confirm('Delete this hospital?')">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- DOCTOR MANAGEMENT -->
+    <!-- ============================== -->
+    <div class="grid-2" style="margin-bottom: 2rem;">
+      <!-- ADD DOCTOR FORM -->
+      <div class="card">
+        <div class="card-header"><h3>👨‍⚕️ Add Doctor</h3></div>
+        <div class="card-body">
+          <form action="/admin/doctors" method="POST">
+            <div class="form-group">
+              <label>Doctor Name</label>
+              <input type="text" name="name" class="form-control" placeholder="Dr. Sharma" required>
+            </div>
+            <div class="form-group">
+              <label>Specialty</label>
+              <input type="text" name="specialty" class="form-control" placeholder="Cardiology" required>
+            </div>
+            <div class="form-group">
+              <label>Assign to Hospital</label>
+              <select name="hospitalId" class="form-control" required>
+                <option value="" disabled selected>-- Select Hospital --</option>
+                <% hospitals.forEach(h => { %>
+                  <option value="<%= h._id %>"><%= h.name %></option>
+                <% }) %>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">+ Add Doctor</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- DOCTORS LIST -->
+      <div class="card">
+        <div class="card-header"><h3>📋 All Doctors (<%= doctors.length %>)</h3></div>
+        <div class="card-body" style="max-height: 350px; overflow-y: auto;">
+          <% if(doctors.length === 0) { %>
+            <div class="empty-state">
+              <div class="icon">👨‍⚕️</div>
+              <h4>No Doctors Yet</h4>
+              <p>Add a hospital first, then add doctors</p>
+            </div>
+          <% } else { %>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Name</th><th>Specialty</th><th>Hospital</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                  <% doctors.forEach(d => { %>
+                    <tr>
+                      <td><strong><%= d.name %></strong></td>
+                      <td><%= d.specialty %></td>
+                      <td><%= d.hospital ? d.hospital.name : 'N/A' %></td>
+                      <td>
+                        <div class="actions">
+                          <button class="btn btn-warning btn-sm" onclick="openEditDoctor('<%= d._id %>', '<%= d.name %>', '<%= d.specialty %>', '<%= d.hospital ? d.hospital._id : '' %>')">Edit</button>
+                          <form action="/admin/doctors/delete/<%= d._id %>" method="POST" style="display:inline;" onsubmit="return confirm('Delete this doctor?')">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- SLOT MANAGEMENT -->
+    <!-- ============================== -->
+    <div class="grid-2" style="margin-bottom: 2rem;">
+      <!-- ADD SLOT FORM -->
+      <div class="card">
+        <div class="card-header"><h3>⏰ Create Slot</h3></div>
+        <div class="card-body">
+          <form action="/admin/slots" method="POST">
+            <div class="form-group">
+              <label>Select Doctor</label>
+              <select name="doctorId" class="form-control" required>
+                <option value="" disabled selected>-- Select Doctor --</option>
+                <% doctors.forEach(d => { %>
+                  <option value="<%= d._id %>"><%= d.name %> (<%= d.specialty %>)</option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Date</label>
+                <input type="date" name="date" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label>Time</label>
+                <input type="time" name="time" class="form-control" required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">+ Create Slot</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- SLOTS LIST -->
+      <div class="card">
+        <div class="card-header"><h3>📋 All Slots (<%= slots.length %>)</h3></div>
+        <div class="card-body" style="max-height: 350px; overflow-y: auto;">
+          <% if(slots.length === 0) { %>
+            <div class="empty-state">
+              <div class="icon">⏰</div>
+              <h4>No Slots Yet</h4>
+              <p>Create time slots for doctors</p>
+            </div>
+          <% } else { %>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Booked By</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                  <% slots.forEach(s => { %>
+                    <% const appt = s.isBooked ? appointments.find(a => a.slot && a.slot._id.toString() === s._id.toString()) : null; %>
+                    <tr style="<%= s.isBooked ? 'opacity:0.7;' : '' %>">
+                      <td><strong><%= s.doctor ? s.doctor.name : 'Unknown' %></strong></td>
+                      <td><%= new Date(s.date).toLocaleDateString('en-IN') %></td>
+                      <td><%= s.time %></td>
+                      <td>
+                        <% if(s.isBooked) { %>
+                          <span class="badge badge-booked">BOOKED</span>
+                        <% } else { %>
+                          <span class="badge badge-open">AVAILABLE</span>
+                        <% } %>
+                      </td>
+                      <td>
+                        <% if(appt && appt.patient) { %>
+                          <strong style="color: var(--primary);"><%= appt.patient.name %></strong>
+                        <% } else { %>
+                          <span style="color: var(--text-muted);">—</span>
+                        <% } %>
+                      </td>
+                      <td>
+                        <div class="actions">
+                          <% if(!s.isBooked) { %>
+                            <button class="btn btn-warning btn-sm" onclick="openEditSlot('<%= s._id %>', '<%= s.doctor ? s.doctor._id : '' %>', '<%= new Date(s.date).toISOString().split('T')[0] %>', '<%= s.time %>')">Edit</button>
+                          <% } %>
+                          <form action="/admin/slots/delete/<%= s._id %>" method="POST" style="display:inline;" onsubmit="return confirm('Delete this slot?')">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- EDIT HOSPITAL MODAL -->
+  <!-- ============================== -->
+  <div id="editHospitalModal" class="modal-overlay">
+    <div class="modal">
+      <h3>✏️ Edit Hospital</h3>
+      <form id="editHospitalForm" method="POST">
+        <div class="form-group">
+          <label>Hospital Name</label>
+          <input type="text" name="name" id="editHName" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" name="address" id="editHAddress" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Contact (10 digits)</label>
+          <input type="tel" name="contact" id="editHContact" class="form-control" pattern="[0-9]{10}" maxlength="10" title="Phone number must be exactly 10 digits">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" onclick="closeModal('editHospitalModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Hospital</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- EDIT DOCTOR MODAL -->
+  <!-- ============================== -->
+  <div id="editDoctorModal" class="modal-overlay">
+    <div class="modal">
+      <h3>✏️ Edit Doctor</h3>
+      <form id="editDoctorForm" method="POST">
+        <div class="form-group">
+          <label>Doctor Name</label>
+          <input type="text" name="name" id="editDName" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Specialty</label>
+          <input type="text" name="specialty" id="editDSpecialty" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Assign to Hospital</label>
+          <select name="hospitalId" id="editDHospital" class="form-control" required>
+            <% hospitals.forEach(h => { %>
+              <option value="<%= h._id %>"><%= h.name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" onclick="closeModal('editDoctorModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Doctor</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- EDIT SLOT MODAL -->
+  <!-- ============================== -->
+  <div id="editSlotModal" class="modal-overlay">
+    <div class="modal">
+      <h3>✏️ Edit Slot</h3>
+      <form id="editSlotForm" method="POST">
+        <div class="form-group">
+          <label>Doctor</label>
+          <select name="doctorId" id="editSDoctor" class="form-control" required>
+            <% doctors.forEach(d => { %>
+              <option value="<%= d._id %>"><%= d.name %></option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" name="date" id="editSDate" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Time</label>
+            <input type="time" name="time" id="editSTime" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" onclick="closeModal('editSlotModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Slot</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Modal helpers
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    function openEditHospital(id, name, address, contact) {
+      document.getElementById('editHospitalForm').action = '/admin/hospital/update/' + id;
+      document.getElementById('editHName').value = name;
+      document.getElementById('editHAddress').value = address;
+      document.getElementById('editHContact').value = contact;
+      document.getElementById('editHospitalModal').classList.add('active');
+    }
+
+    function openEditDoctor(id, name, specialty, hospitalId) {
+      document.getElementById('editDoctorForm').action = '/admin/doctors/update/' + id;
+      document.getElementById('editDName').value = name;
+      document.getElementById('editDSpecialty').value = specialty;
+      document.getElementById('editDHospital').value = hospitalId;
+      document.getElementById('editDoctorModal').classList.add('active');
+    }
+
+    function openEditSlot(id, doctorId, date, time) {
+      document.getElementById('editSlotForm').action = '/admin/slots/update/' + id;
+      document.getElementById('editSDoctor').value = doctorId;
+      document.getElementById('editSDate').value = date;
+      document.getElementById('editSTime').value = time;
+      document.getElementById('editSlotModal').classList.add('active');
+    }
+
+    // Close modal on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(m => {
+      m.addEventListener('click', e => { if(e.target === m) m.classList.remove('active'); });
+    });
+
+    // Auto-dismiss alerts after 3 seconds
+    document.querySelectorAll('.alert').forEach(alert => {
+      setTimeout(() => {
+        alert.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        alert.style.opacity = '0';
+        alert.style.transform = 'translateY(-10px)';
+        setTimeout(() => alert.remove(), 500);
+      }, 3000);
+    });
+  </script>
+</body>
+</html>

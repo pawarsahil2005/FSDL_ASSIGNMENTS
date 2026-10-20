@@ -1,0 +1,29 @@
+<section class="section section--narrow">
+  <h1 class="section__title">Admin Dashboard</h1>
+  <p class="section__intro">Manage all insurance plans (create, update, delete).</p>
+
+  <p>
+    <a href="/admin/plans/new" class="btn">Add New Plan</a>
+  </p>
+
+  <% if (plans && plans.length) { %>
+    <div class="cards-grid">
+      <% plans.forEach((plan) => { %>
+        <article class="card">
+          <h2 class="card__title"><%= plan.planName %></h2>
+          <p class="card__price">₹ <%= plan.price %></p>
+          <p class="card__duration"><%= plan.duration %></p>
+          <p class="card__description"><%= plan.description %></p>
+          <p>
+            <a href="/admin/plans/<%= plan._id %>/edit" class="btn btn-small">Edit</a>
+            <form action="/admin/plans/<%= plan._id %>/delete" method="POST" style="display:inline">
+              <button type="submit" class="btn btn-danger btn-small" onclick="return confirm('Delete this plan?')">Delete</button>
+            </form>
+          </p>
+        </article>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p>No plans found.</p>
+  <% } %>
+</section>

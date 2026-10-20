@@ -1,0 +1,61 @@
+<section class="section">
+  <h1 class="section__title">Hi, <%= user && user.name ? user.name : "Guest" %></h1>
+  <p class="section__intro">
+    Choose a plan and keep it saved in your account.
+  </p>
+
+  <div class="dashboard-actions">
+    <a href="/logout" class="btn btn-outline">Logout</a>
+  </div>
+
+  <h2 class="section__subtitle">Your Plans</h2>
+  <div class="cards-grid">
+    <% if (user && user.selectedPlans && user.selectedPlans.length) { %>
+      <% user.selectedPlans.forEach((plan) => { %>
+        <article class="card">
+          <h3 class="card__title"><%= plan.planName %></h3>
+          <p class="card__price">₹ <%= plan.price %></p>
+          <p class="card__duration"><%= plan.duration %></p>
+          <p class="card__description"><%= plan.description %></p>
+          <form action="/plans/<%= plan._id %>/remove" method="POST">
+            <button class="btn btn-outline btn-full" type="submit">
+              Remove Plan
+            </button>
+          </form>
+        </article>
+      <% }) %>
+    <% } else { %>
+      <p>You haven't chosen any plan yet.</p>
+    <% } %>
+  </div>
+
+  <h2 class="section__subtitle">Available Plans</h2>
+  <div class="cards-grid">
+    <% if (plans && plans.length) { %>
+      <% plans.forEach((plan) => { %>
+        <article class="card">
+          <h3 class="card__title"><%= plan.planName %></h3>
+          <p class="card__price">₹ <%= plan.price %></p>
+          <p class="card__duration"><%= plan.duration %></p>
+          <p class="card__description"><%= plan.description %></p>
+
+          <form action="/plans/<%= plan._id %>/add" method="POST">
+            <% const hasPlan = ownedPlanIds && ownedPlanIds.includes(String(plan._id)); %>
+            <% if (hasPlan) { %>
+              <button class="btn btn-secondary btn-full" type="button" disabled>
+                Already added
+              </button>
+            <% } else { %>
+              <button class="btn btn-primary btn-full" type="submit">
+                Add Plan
+              </button>
+            <% } %>
+          </form>
+        </article>
+      <% }) %>
+    <% } else { %>
+      <p>No plans are currently available.</p>
+    <% } %>
+  </div>
+</section>
+

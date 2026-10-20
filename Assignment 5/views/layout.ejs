@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= typeof title !== "undefined" ? title : "SecureLife Insurance" %></title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="navbar">
+        <div class="navbar__brand">
+          <a href="/">
+            <img src="/logo.svg" alt="SecureLife logo" class="logo-image" />
+            <span class="logo-text">SecureLife Insurance</span>
+          </a>
+        </div>
+        <ul class="navbar__links">
+          <li><a href="/" class="<%= (title || '').includes('Home') ? 'active' : '' %>">Home</a></li>
+          <li><a href="/plans" class="<%= (title || '').includes('Plans') ? 'active' : '' %>">Plans</a></li>
+          <li><a href="/about" class="<%= (title || '').includes('About') ? 'active' : '' %>">About</a></li>
+
+          <% if (!currentUser) { %>
+            <li><a href="/login" class="<%= (title || '').includes('Login') ? 'active' : '' %>">Login</a></li>
+            <li><a href="/register" class="<%= (title || '').includes('Register') ? 'active' : '' %>">Register</a></li>
+          <% } else { %>
+            <% if (currentUser && currentUser.role === 'admin') { %>
+              <li><a href="/admin" class="<%= (title || '').includes('Admin') ? 'active' : '' %>">Admin</a></li>
+            <% } %>
+            <li><a href="/dashboard" class="<%= (title || '').includes('Dashboard') ? 'active' : '' %>">Dashboard</a></li>
+            <li><a href="/logout">Logout</a></li>
+          <% } %>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="page-content">
+      <%- body %>
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; <%= new Date().getFullYear() %> SecureLife Insurance. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

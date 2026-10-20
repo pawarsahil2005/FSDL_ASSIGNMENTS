@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>E-Commerce Sales Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f9;
+        }
+
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .filter {
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        canvas {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>🛒 E-Commerce Sales Analytics Dashboard</h2>
+</header>
+
+<div class="container">
+
+    <div class="filter">
+        <label>Select Year: </label>
+        <select id="yearSelect">
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+        </select>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Monthly Sales Trend</h3>
+            <canvas id="salesChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Revenue vs Profit</h3>
+            <canvas id="revenueChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Category Distribution</h3>
+            <canvas id="categoryChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Region-wise Sales</h3>
+            <canvas id="regionChart"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const salesData = {
+    2023: [120, 150, 180, 170, 200, 220, 250, 240, 260, 280, 300, 320],
+    2024: [140, 160, 200, 190, 230, 260, 280, 300, 320, 350, 370, 400]
+};
+
+const revenueData = {
+    2023: [500, 650],
+    2024: [700, 850]
+};
+
+const ctx1 = document.getElementById('salesChart').getContext('2d');
+const salesChart = new Chart(ctx1, {
+    type: 'line',
+    data: {
+        labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+        datasets: [{
+            label: "Sales (in thousands)",
+            data: salesData[2023],
+            borderColor: "#2563eb",
+            backgroundColor: "rgba(37,99,235,0.2)",
+            fill: true,
+            tension: 0.4
+        }]
+    }
+});
+
+const ctx2 = document.getElementById('revenueChart').getContext('2d');
+const revenueChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: ["Revenue", "Profit"],
+        datasets: [{
+            label: "Amount (in thousands)",
+            data: revenueData[2023],
+            backgroundColor: ["#10b981", "#f59e0b"]
+        }]
+    }
+});
+
+const ctx3 = document.getElementById('categoryChart').getContext('2d');
+const categoryChart = new Chart(ctx3, {
+    type: 'doughnut',
+    data: {
+        labels: ["Electronics", "Fashion", "Home", "Sports"],
+        datasets: [{
+            data: [35, 25, 20, 20],
+            backgroundColor: ["#6366f1","#ec4899","#14b8a6","#f97316"]
+        }]
+    }
+});
+
+const ctx4 = document.getElementById('regionChart').getContext('2d');
+const regionChart = new Chart(ctx4, {
+    type: 'pie',
+    data: {
+        labels: ["North", "South", "East", "West"],
+        datasets: [{
+            data: [30, 25, 20, 25],
+            backgroundColor: ["#3b82f6","#ef4444","#22c55e","#a855f7"]
+        }]
+    }
+});
+
+document.getElementById("yearSelect").addEventListener("change", function() {
+    const year = this.value;
+    salesChart.data.datasets[0].data = salesData[year];
+    revenueChart.data.datasets[0].data = revenueData[year];
+    salesChart.update();
+    revenueChart.update();
+});
+</script>
+
+</body>
+</html>

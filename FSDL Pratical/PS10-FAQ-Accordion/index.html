@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            text-align: center;
+        }
+
+        .faq {
+            width: 400px;
+            margin: auto;
+        }
+
+        .question {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .answer {
+            display: none;
+            background: #e9e9e9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>FAQ Accordian</h1>
+    <div class="faq">
+        <div class="question">What is your name?</div>
+        <div class="answer">My name is Sahil.</div>
+        <br>
+        <div class="question">What is your name?</div>
+        <div class="answer">My name is Sahil.</div>
+        <br>
+        <div class="question">What is your name?</div>
+        <div class="answer">My name is Sahil.</div>
+    </div>
+    <script>
+        let questions = document.querySelectorAll(".question");
+
+        questions.forEach((q) => {
+
+            q.addEventListener("click", () => {
+                let answer = q.nextElementSibling;
+                if (answer.style.display === "block") {
+                    answer.style.display = "none";
+                } else {
+                    answer.style.display = "block";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

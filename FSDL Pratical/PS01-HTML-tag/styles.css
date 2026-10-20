@@ -1,0 +1,34 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+#searchBar{
+    width:60%; 
+    padding:10px; 
+    font-size:18px; 
+    margin:20px; 
+    border-radius:5px; 
+    border:1px solid gray; 
+}
+
+table{ 
+width:80%; 
+margin:auto; 
+border-collapse:collapse; 
+background:white; 
+} 
+
+th,td{ 
+border:1px solid #000000; 
+padding:12px; 
+} 
+
+th{ 
+background:#007bff; 
+color:white; 
+} 
+
+tr:hover{ 
+background:#f1f1f1; 
+} 

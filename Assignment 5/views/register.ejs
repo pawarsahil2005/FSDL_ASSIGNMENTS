@@ -1,0 +1,42 @@
+<section class="section section--narrow">
+  <h1 class="section__title">Create an Account</h1>
+  <p class="section__intro">
+    Register with SecureLife Insurance to view and manage your plans in one place.
+  </p>
+
+  <% if (typeof error !== "undefined" && error) { %>
+    <div class="alert alert-error"><%= error %></div>
+  <% } %>
+
+  <form action="/register" method="POST" class="form">
+    <div class="form__group">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter your full name" required />
+    </div>
+
+    <div class="form__group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required />
+    </div>
+
+    <div class="form__group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Create a strong password"
+        minlength="6"
+        required
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-full">Register</button>
+
+    <p class="form__note">
+      Already have an account?
+      <a href="/login">Login here</a>.
+    </p>
+  </form>
+</section>
+

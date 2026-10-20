@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Sahil",
+    "subjects": ["Math","Science","English","Computer","History"],
+    "marks": [85,90,78,92,74],
+    "semester": [72,75,80,95],
+    "attendance": 88
+  },
+  {
+    "name": "Rahul",
+    "subjects": ["Math","Science","English","Computer","History"],
+    "marks": [55,60,48,70,65],
+    "semester": [60,62,74,66],
+    "attendance": 68
+  },
+  {
+    "name": "Ranjit",
+    "subjects": ["Math","Science","English","Computer","History"],
+    "marks": [95,88,92,96,89],
+    "semester": [80,85,90,84],
+    "attendance": 94
+  },
+  {
+    "name": "Rohit",
+    "subjects": ["Math","Science","English","Computer","History"],
+    "marks": [60,56,82,66,80],
+    "semester": [45,67,81,77],
+    "attendance": 65
+  }
+]

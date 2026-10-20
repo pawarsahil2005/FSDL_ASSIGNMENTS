@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student System</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f4f6fb;
+    }
+
+    h1 {
+      background: #4c8bf5;
+      color: white;
+      padding: 15px;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 5px;
+    }
+
+    button {
+      background: #4c8bf5;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .card {
+      background: white;
+      margin: 10px auto;
+      padding: 10px;
+      width: 300px;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .delete {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      background: red;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Student Record System</h1>
+
+<input id="name" placeholder="Name">
+<input id="rollNo" placeholder="Roll No">
+<input id="branch" placeholder="Branch">
+<button onclick="addStudent()">Add</button>
+
+<div id="list"></div>
+
+<script>
+const API = "http://localhost:3000";
+
+// Load students
+async function loadStudents() {
+  let res = await fetch(`${API}/students`);
+  let data = await res.json();
+
+  let html = "";
+
+  data.forEach(s => {
+    html += `
+      <div class="card">
+        <p><b>${s.name}</b></p>
+        <p>Roll: ${s.rollNo}</p>
+        <p>Branch: ${s.branch}</p>
+        <button class="delete" onclick="deleteStudent('${s._id}')">X</button>
+      </div>
+    `;
+  });
+
+  document.getElementById("list").innerHTML = html;
+}
+
+// Add student
+async function addStudent() {
+  let name = document.getElementById("name").value;
+  let rollNo = document.getElementById("rollNo").value;
+  let branch = document.getElementById("branch").value;
+
+  await fetch(`${API}/add`, {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ name, rollNo, branch })
+  });
+
+  loadStudents();
+}
+
+// Delete student
+async function deleteStudent(id) {
+  await fetch(`${API}/delete/${id}`, { method: "DELETE" });
+  loadStudents();
+}
+
+loadStudents();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme Switcher Page</title>
+
+  <style>
+    /* Smooth transition */
+    body {
+      margin: 0;
+      font-family: Arial;
+      transition: 0.3s;
+      text-align: center;
+    }
+
+    /* LIGHT THEME */
+    body.light {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    /* DARK THEME */
+    body.dark {
+      background: #121212;
+      color: #ffffff;
+    }
+
+    header {
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 20px 0;
+      font-size: 16px;
+    }
+
+    /* Button style for light mode */
+    body.light button {
+      background: black;
+      color: white;
+    }
+
+    /* Button style for dark mode */
+    body.dark button {
+      background: white;
+      color: black;
+    }
+
+    .card {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.05);
+    }
+
+    body.dark .card {
+      background: rgba(255,255,255,0.1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>Theme Switcher Demo Page</header>
+
+  <div class="container">
+    <p>This is a complete example of Light and Dark mode with localStorage support.</p>
+
+    <button id="toggleBtn">Toggle Theme</button>
+
+    <div class="card">
+      <h3>Sample Content Box</h3>
+      <p>This box also changes style based on the selected theme.</p>
+    </div>
+  </div>
+
+  <script>
+    const body = document.body;
+    const btn = document.getElementById("toggleBtn");
+
+    // Load saved theme from localStorage
+    let theme = localStorage.getItem("theme");
+
+    if (theme) {
+      body.classList.add(theme);
+    } else {
+      body.classList.add("light"); // default theme
+    }
+
+    // Toggle theme
+    btn.addEventListener("click", () => {
+      if (body.classList.contains("light")) {
+        body.classList.replace("light", "dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        body.classList.replace("dark", "light");
+        localStorage.setItem("theme", "light");
+      }
+    });
+  </script>
+
+</body>
+</html>

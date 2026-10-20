@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping Cart</title>
+
+<style>
+   body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+    text-align: center;
+}
+
+.cart{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: auto;
+}
+
+.item{
+    background-color: antiquewhite;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Shopping Cart</h1>
+<div class="cart">
+<div class="item">
+    <h3>Headphones</h3>
+    <p>Price Rs.1000</p>
+    <button onClick="decrease(0)">-</button>
+    <span id="qty0">0</span>
+    <button onClick="increase(0)">+</button>
+    <p>Total: Rs.<span id="total0">0</span></p>
+</div>
+<div class="item">
+    <h3>Smart Watch</h3>
+    <p>Price Rs.2000</p>
+    <button onClick="decrease(1)">-</button>
+    <span id="qty1">0</span>
+    <button onClick="increase(1)">+</button>
+    <p>Total: Rs.<span id="total1">0</span></p>
+</div>
+<div class="item">
+    <h3>Smart Phone</h3>
+    <p>Price Rs.10000</p>
+    <button onClick="decrease(2)">-</button>
+    <span id="qty2">0</span>
+    <button onClick="increase(2)">+</button>
+    <p>Total: Rs.<span id="total2">0</span></p>
+</div>
+</div>
+
+<h3>Grand Total:<span id="grandTotal">0</span></h3>
+<script>
+    let prices = [1000,2000,10000];
+    let quantities = [0,0,0];
+
+    // Increase
+    function increase(index){
+        quantities[index]++;
+        updateCart(index);
+    }
+
+    function decrease(index){
+        if(quantities[index] > 0){
+            quantities[index]--;
+            updateCart(index);
+        }
+    }
+
+    function updateCart(index){
+        document.getElementById("qty"+index).innerText = quantities[index];
+        document.getElementById("total"+index).innerText = quantities[index] * prices[index];
+        updateGrandTotal();
+    }
+
+    function updateGrandTotal()
+    {
+        let grandTotal = 0;
+        for(let i = 0; i < prices.length;i++)
+        {
+            grandTotal += prices[i] * quantities[i];
+        }
+
+        document.getElementById("grandTotal").innerText = grandTotal;
+    }
+</script>
+
+</body>
+</html>

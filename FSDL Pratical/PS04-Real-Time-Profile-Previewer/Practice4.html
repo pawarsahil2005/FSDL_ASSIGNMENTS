@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Real-time Profile Viewer</title>
+    <style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+}
+
+/* Layout */
+.container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* Form box */
+.form-box {
+    width: 300px;
+    background-color: rgb(251, 182, 182);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Inputs */
+.form-box input {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+/* Profile card */
+.profile-card {
+    width: 300px;
+    border: 1px solid black;
+    background-color: aliceblue;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Image */
+#previewImg {
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+    </style>
+</head>
+
+<body>
+    <h1> Real-Time Profile Previewer </h1>
+    <div class="container">
+        <div class="form-box">
+            <input type="text" id="name" placeholder="Enter Name">
+            <input type="text" id="email" placeholder="Enter Email">
+            <input type="text" id="bio" placeholder="Enter Bio">
+            <input type="text" id="image" placeholder="Enter Image URL">
+        </div>
+
+        <div class="profile-card">
+            <h2>Profile Card</h2>
+            <img id="previewImg" src="" alt="Profile Image" width="100px">
+            <h3 id="previewName">Your Name</h3>
+            <p id="previewEmail">Your Email</p>
+            <p id="previewBio">Your Bio</p>
+
+        </div>
+    </div>
+    <script>
+        document.getElementById("name").addEventListener("keyup", UpdateProfile);
+        document.getElementById("email").addEventListener("keyup", UpdateProfile);
+        document.getElementById("bio").addEventListener("keyup", UpdateProfile);
+        document.getElementById("image").addEventListener("keyup", UpdateProfile);
+
+        function UpdateProfile() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let bio = document.getElementById("bio").value;
+            let img = document.getElementById("image").value;
+
+            document.getElementById("previewName").innerHTML = name || "Your Name";
+            document.getElementById("previewEmail").innerHTML = email || "Your Email";
+            document.getElementById("previewBio").innerHTML = bio || "Your Bio";
+            document.getElementById("previewImg").src = img || "";
+        }
+    </script>
+</body>
+
+</html>

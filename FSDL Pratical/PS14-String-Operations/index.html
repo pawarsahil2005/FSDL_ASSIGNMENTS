@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            margin-top: 10%;
+        }
+
+        .box {
+            border: 1px solid black;
+            padding: 20px;
+            width: 400px;
+            margin: auto;
+            border-radius: 10px;
+        }
+
+        #textInput {
+            padding: 10px;
+            width: 90%;
+            margin: 10px;
+        }
+
+        .btn {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button {
+            gap: 3px;
+            padding: 5px;
+            background-color: azure;
+            border-radius: 20px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1>String Operations</h1>
+    <div class="box">
+        <input type="text" id="textInput" placeholder="Enter the string...">
+        <br>
+        <div class="btn">
+            <button onclick="reverseString()">reverse</button>
+            <button onclick="lowerCase()">Lower</button>
+            <button onclick="upperCase()">Upper</button>
+            <button onclick="lengthOfStr()">Length</button>
+        </div>
+        <h3> Output - <span id="outputString"></span></h3>
+    </div>
+
+    <script>
+        function reverseString() {
+            let text = document.getElementById("textInput").value;
+            if (text === "") { alert("Enter the String"); return; }
+            let result = text.split("").reverse().join("");
+            document.getElementById("outputString").innerHTML = "Reversed String : " + result;
+        }
+
+        function lowerCase() {
+            let text = document.getElementById("textInput").value;
+            if (text === "") { alert("Enter the String"); return; }
+            document.getElementById("outputString").innerHTML = "Lower Case: " + text.toLowerCase();
+        }
+
+        function upperCase() {
+            let text = document.getElementById("textInput").value;
+            if (text === "") { alert("Enter the String"); return; }
+            document.getElementById("outputString").innerHTML = "Upper Case: " + text.toUpperCase();
+        }
+
+        function lengthOfStr() {
+            let text = document.getElementById("textInput").value;
+            if (text === "") { alert("Enter the String"); return; }
+            document.getElementById("outputString").innerHTML = "Length Of String: " + text.length;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+<section class="section section--narrow">
+  <h1 class="section__title">Add New Insurance Plan</h1>
+
+  <% if (typeof error !== "undefined" && error) { %>
+    <div class="alert alert-error"><%= error %></div>
+  <% } %>
+
+  <form action="/admin/plans/new" method="POST" class="form">
+    <div class="form__group">
+      <label for="planName">Plan Name</label>
+      <input type="text" id="planName" name="planName" required />
+    </div>
+
+    <div class="form__group">
+      <label for="price">Price (₹)</label>
+      <input type="number" id="price" name="price" min="1" required />
+    </div>
+
+    <div class="form__group">
+      <label for="duration">Duration</label>
+      <input type="text" id="duration" name="duration" required />
+    </div>
+
+    <div class="form__group">
+      <label for="description">Description</label>
+      <input type="text" id="description" name="description" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-full">Add Plan</button>
+    <p class="form__note"><a href="/admin">Back to admin</a></p>
+  </form>
+</section>
